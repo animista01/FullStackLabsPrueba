@@ -1,0 +1,11 @@
+== README
+
+Things you may want to cover:
+
+* Rails version 4.2.8 
+
+* bundle install
+
+* Add correct credentials to database.yml config file
+
+* rake db:create 
