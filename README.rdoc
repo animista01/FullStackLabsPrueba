@@ -9,3 +9,5 @@ Things you may want to cover:
 * Add correct credentials to database.yml config file
 
 * rake db:create 
+* rake db:migrate 
+* rake db:seed

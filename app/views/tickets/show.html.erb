@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Costumer message:</strong>
+  <%= @ticket.costumer_message %>
+</p>
+
+<p>
+  <strong>Costumer:</strong>
+  <%= @ticket.costumer_id %>
+</p>
+
+<p>
+  <strong>Support agent response:</strong>
+  <%= @ticket.support_agent_response %>
+</p>
+
+<p>
+  <strong>Support agent:</strong>
+  <%= @ticket.support_agent_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @ticket.status %>
+</p>
+
+<p>
+  <strong>Closed at:</strong>
+  <%= @ticket.closed_at %>
+</p>
+
+<%= link_to 'Edit', edit_ticket_path(@ticket) %> |
+<%= link_to 'Back', tickets_path %>
