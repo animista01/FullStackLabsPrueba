@@ -16,6 +16,11 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
+    <%= f.label :role_id %><br>
+    <%= f.select('role_id', @roles.collect{|role| [role.name.capitalize, role.id]}, {:prompt => "Role"}, {:class=>"form-control", :required=>"required", :value => (f.object.role_id.to_i if f.object.role_id) }) %>
+   
+  </div>
+  <div class="field">
     <%= f.label :password %><br>
     <%= f.text_field :password %>
   </div>

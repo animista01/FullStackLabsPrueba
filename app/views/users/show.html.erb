@@ -7,9 +7,13 @@
 
 <p>
   <strong>Password:</strong>
-  <%= @user.password_id %>
+  <%= @user.password %>
 </p>
 
+<p>
+  <strong>Role id:</strong>
+  <%= @user.role_id %>
+</p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

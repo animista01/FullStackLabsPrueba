@@ -6,6 +6,7 @@ FactoryGirl.define do
   	password 'secret'
 	password_confirmation 'secret'	
 	admin false
+  role_id 1
 	
 	factory :invalid_user do
     	email nil

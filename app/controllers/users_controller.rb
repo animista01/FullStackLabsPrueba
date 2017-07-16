@@ -16,16 +16,19 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    @roles = Role.all
     @user = User.new
   end
 
   # GET /users/1/edit
   def edit
+    @roles = Role.all
   end
 
   # POST /users
   # POST /users.json
   def create
+    @roles = Role.all
     @user = User.new(user_params)
 
     respond_to do |format|
@@ -42,6 +45,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    @roles = Role.all
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'user was successfully updated.' }

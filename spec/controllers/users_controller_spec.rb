@@ -4,7 +4,8 @@ RSpec.describe UsersController, type: :controller do
 
   describe  "Login access" do
     before :each do
-      login_user_admin
+      @user = create(:user, admin: true)
+      login_user_admin @user
     end
 
     describe "GET #show" do

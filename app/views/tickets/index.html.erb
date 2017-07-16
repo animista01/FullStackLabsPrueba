@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
-
+<div>
+  <%= link_to 'Export last tickets (30 days)', export_pdf_path(format: "pdf") %>
+</div>
 <h1>Listing Tickets</h1>
 
 <table>

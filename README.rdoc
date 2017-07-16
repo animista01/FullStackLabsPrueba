@@ -2,7 +2,9 @@
 
 Things you may want to cover:
 
-* Rails version 4.2.8 
+Rails version 4.2.8 
+
+- Steps to run in development
 
 * bundle install
 
@@ -11,3 +13,20 @@ Things you may want to cover:
 * rake db:create 
 * rake db:migrate 
 * rake db:seed
+
+* rspec (to run all tests)
+
+/or
+- Default admin user:
+. Email theadmin@gmail.com
+. Password tooradmin
+
+
+Roles:
+- costumer
+- support_agent
+- admin
+
+- Costumer can only view their tickets and create new ones
+- Support agent can only update a ticket (Setting a response to the ticket and/or closing it and/or changing their status) and create a report pdf with all last 30 days closed tickets
+- Admin users can delete tickets and create new users for a specific role

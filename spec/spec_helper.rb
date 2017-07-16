@@ -23,7 +23,7 @@ require 'rails_helper'
 RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, :type => :controller
   config.include ControllerHelpers, :type => :controller
-
+  config.include RequestSpecHelper, :type => :request
   # Warden.test_mode!
   # config.after do
   #   Warden.test_reset!

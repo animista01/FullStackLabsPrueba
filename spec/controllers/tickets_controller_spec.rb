@@ -3,42 +3,59 @@ require 'spec_helper'
 RSpec.describe TicketsController, type: :controller do
 
   describe  "Login access" do
-    before :each do
-      login_user
-    end
 
-    describe "GET #index" do
-      it "assigns all tickets as @tickets" do
-        ticket = create(:ticket)
-        get :index
-        expect(assigns(:tickets)).to eq([ticket])
+    describe "Costumer level access" do
+      before :each do
+        @user = create(:user, role_id: 1)
+        login_user @user
+      end
+      context "with right access" do
+        describe "GET #index" do
+          it "assigns all tickets as @tickets" do
+            ticket = create(:ticket, costumer_id: @user.id)
+            get :index
+            expect(assigns(:tickets)).to eq([ticket])
+          end
+        end
+
+        describe "GET #show" do
+          it "assigns the requested ticket as @ticket" do
+            ticket = create(:ticket, costumer_id: @user.id)
+            get :show, id: ticket
+            expect(assigns(:ticket)).to eq(ticket)
+          end
+        end
+
+        describe "GET #new" do
+          it "assigns a new ticket as @ticket" do
+            get :new
+            expect(assigns(:ticket)).to be_a_new(Ticket)
+          end
+        end
       end
     end
 
-    describe "GET #show" do
-      it "assigns the requested ticket as @ticket" do
-        ticket = create(:ticket)
-        get :show, id: ticket
-        expect(assigns(:ticket)).to eq(ticket)
+    describe "Support agent level access" do
+      before :each do
+        @user = create(:user, role_id: 2)
+        login_user @user
       end
-    end
-
-    describe "GET #new" do
-      it "assigns a new ticket as @ticket" do
-        get :new
-        expect(assigns(:ticket)).to be_a_new(Ticket)
-      end
-    end
-
-    describe "GET #edit" do
-      it "assigns the requested ticket as @ticket" do
-        ticket = create(:ticket)
-        get :edit, id: ticket
-        expect(assigns(:ticket)).to eq(ticket)
+      context "with right access" do
+        describe "GET #edit" do
+          it "assigns the requested ticket as @ticket" do
+            ticket = create(:ticket, costumer_id: @user.id)
+            get :edit, id: ticket
+            expect(assigns(:ticket)).to eq(ticket)
+          end
+        end
       end
     end
 
     describe "POST #create" do
+      before :each do
+        @user = create(:user, role_id: 1)
+        login_user @user
+      end
       context "with valid params" do
         it "creates a new Ticket" do
           expect {
@@ -73,7 +90,9 @@ RSpec.describe TicketsController, type: :controller do
 
     describe "PUT #update" do
       before :each do
-        @ticket = create(:ticket)
+        @user = create(:user, role_id: 2)
+        login_user @user
+        @ticket = create(:ticket, costumer_id: @user.id)
       end
       context "with valid params" do
 
@@ -109,7 +128,9 @@ RSpec.describe TicketsController, type: :controller do
 
     describe "DELETE #destroy" do
       before :each do
-        @ticket = create(:ticket)
+        @user = create(:user, role_id: 3, admin: true)
+        login_user_admin @user
+        @ticket = create(:ticket, costumer_id: @user.id)
       end
       it "destroys the requested ticket" do
         expect {

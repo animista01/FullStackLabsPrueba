@@ -1,11 +1,19 @@
 class TicketsController < ApplicationController
   before_action :authenticate_user!
+  before_action :is_costumer, only: [:new, :create]
+  before_action :is_support_agent, only: [:edit, :update, :export]
+  before_action :is_admin, only: [:destroy]
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
+
 
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = Ticket.all
+    if current_user.role_id == 1
+      @tickets = Ticket.all.where(costumer_id: current_user.id)
+    else
+      @tickets = Ticket.all
+    end
   end
 
   # GET /tickets/1
@@ -26,7 +34,7 @@ class TicketsController < ApplicationController
   # POST /tickets.json
   def create
     @ticket = Ticket.new(ticket_params)
-
+    @ticket.costumer_id = current_user.id
     respond_to do |format|
       if @ticket.save
         format.html { redirect_to @ticket, notice: 'Ticket was successfully created.' }
@@ -42,6 +50,7 @@ class TicketsController < ApplicationController
   # PATCH/PUT /tickets/1.json
   def update
     respond_to do |format|
+      @ticket.support_agent_id = current_user.id
       if @ticket.update(ticket_params)
         format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
         format.json { render :show, status: :ok, location: @ticket }
@@ -59,6 +68,17 @@ class TicketsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tickets_url, notice: 'Ticket was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def export
+    @tickets = Ticket.where("closed_at >= ?", 30.days.ago)
+
+    respond_to do |format|
+      format.pdf do
+        pdf = ReportPdf.new(@tickets)
+        send_data pdf.render, filename: 'report.pdf', type: 'application/pdf', disposition: "inline"
+      end
     end
   end
 
